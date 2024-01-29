@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <style>
+        body {
+            font-family: 'Papyrus', Fantasy;
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            background: url('co.jpg') center center fixed;
+            background-size: cover;
+            background-color: floralwhite;
+        }
+
+        header {
+            background-color: #424545;
+            color: azure;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #calculator-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+        }
+
+        #calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 8px;
+            max-width: 600px;
+            padding: 16px;
+            background-color: #C1C2C2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        #display {
+            grid-column: span 4;
+            height: 40px;
+            margin-bottom: 8px;
+            text-align: right;
+            font-family: 'Garamond', Serif;
+            font-size: 30px;
+            padding: 4px 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: honeydew;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: lightgoldenrodyellow;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CALCULATOR</h1>
+        <p>Make Your Calculations!</p>
+    </header>
+    <div id="calculator-container">
+        <div id="calculator">
+            <div id="display"></div>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="setOperator('/')">/</button>
+
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="setOperator('*')">*</button>
+
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="setOperator('-')">-</button>
+
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="calculateResult()">=</button>
+            <button onclick="setOperator('+')">+</button>
+        </div>
+    </div>
+        <script>
+            let currentInput = '';
+            let operator = '';
+            let firstOperand = null;
+            const display = document.getElementById('display');
+
+            function appendNumber(number) {
+                currentInput += number;
+                updateDisplay();
+            }
+
+            function setOperator(op) {
+                operator = op;
+                if (currentInput !== '') {
+                    firstOperand = parseFloat(currentInput);
+                    currentInput = '';
+                }
+                updateDisplay();
+            }
+
+            function clearDisplay() {
+                currentInput = '';
+                operator = '';
+                firstOperand = null;
+                updateDisplay();
+            }
+
+            function calculateResult() {
+                if (operator !== '' && firstOperand !== null && currentInput !== '') {
+                    const secondOperand = parseFloat(currentInput);
+                    switch (operator) {
+                        case '+':
+                            currentInput = firstOperand + secondOperand;
+                            break;
+                        case '-':
+                            currentInput = firstOperand - secondOperand;
+                            break;
+                        case '*':
+                            currentInput = firstOperand * secondOperand;
+                            break;
+                        case '/':
+                            currentInput = firstOperand / secondOperand;
+                            break;
+                        default:
+                            break;
+                    }
+                    updateDisplay();
+                    operator = '';
+                    firstOperand = null;
+                }
+            }
+
+            function updateDisplay() {
+                display.innerText = currentInput !== '' ? currentInput : '0';
+            }
+        </script>
+
+</body>
+</html> 
